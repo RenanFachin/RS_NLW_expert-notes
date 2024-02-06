@@ -5,7 +5,14 @@ export default {
     "./src/**/*.tsx",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif']
+      },
+      gridAutoRows: {
+        'notes': '250px',
+      }
+    },
   },
   plugins: [],
 }
