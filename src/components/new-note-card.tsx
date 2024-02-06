@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from 'react'
+import { toast } from 'sonner'
 
 export function NewNoteCard() {
   const [shouldShowOnboard, setShouldShowOnboard] = useState<boolean>(true)
@@ -29,6 +30,9 @@ export function NewNoteCard() {
   function handleSaveNote(event: FormEvent) {
     event.preventDefault()
     console.log(content)
+    setShouldShowOnboard(true)
+    toast.success('Nota criada com sucesso!')
+
   }
 
   return (
@@ -72,7 +76,7 @@ export function NewNoteCard() {
 
                     <textarea
                       autoFocus
-                      className='text-sm leading-6 text-zinc-400 bg-transparent resize-none flex-1 outline-none'
+                      className='text-sm leading-6 text-zinc-400 bg-zinc-900/20 rounded-md p-4 resize-none flex-1 outline-none'
                       onChange={handleContentChanged}
                     />
                   </>
