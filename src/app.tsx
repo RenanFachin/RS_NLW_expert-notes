@@ -1,10 +1,12 @@
+import { format } from 'date-fns';
 import logoNLW from './assets/logo-nlw-expert.svg'
 import { NewNoteCard } from './components/new-note-card'
 import { NoteCard } from './components/note-card'
 
+
 const note = {
-  date: new Date(),
-  content: 'Hello World'
+  date: new Date(2024, 2, 1),
+  content: ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus labore maiores molestias! Iste sint, quam eum quo dolorem necessitatibus enim qui consectetur quidem reiciendis? Maiores temporibus accusamus repellat perspiciatis voluptatem.'
 }
 
 export function App() {
@@ -28,10 +30,10 @@ export function App() {
         <NewNoteCard />
 
         <NoteCard note={note} />
-        <NoteCard note={{
+        {/* <NoteCard note={{
           date: new Date(),
           content: 'Note card'
-        }} />
+        }} /> */}
       </div>
     </div>
   )
