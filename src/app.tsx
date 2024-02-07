@@ -1,15 +1,30 @@
-import { format } from 'date-fns';
+import { useState } from 'react'
 import logoNLW from './assets/logo-nlw-expert.svg'
 import { NewNoteCard } from './components/new-note-card'
 import { NoteCard } from './components/note-card'
 
 
-const note = {
-  date: new Date(2024, 2, 1),
-  content: ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus labore maiores molestias! Iste sint, quam eum quo dolorem necessitatibus enim qui consectetur quidem reiciendis? Maiores temporibus accusamus repellat perspiciatis voluptatem.'
+interface Note {
+  id: string
+  date: Date
+  content: string
 }
 
 export function App() {
+  const [notes, setNotes] = useState<Note[]>([])
+
+  function onNoteCreated(content: string) {
+    const newNote = {
+      id: crypto.randomUUID(),
+      date: new Date(),
+      content
+    }
+
+
+    setNotes([newNote, ...notes])
+  }
+
+
   return (
     <div className='mx-auto max-w-6xl my-12 space-y-6'>
 
@@ -27,13 +42,15 @@ export function App() {
 
 
       <div className='grid grid-cols-3 auto-rows-notes gap-6'>
-        <NewNoteCard />
+        <NewNoteCard onNoteCreated={onNoteCreated} />
 
-        <NoteCard note={note} />
-        {/* <NoteCard note={{
-          date: new Date(),
-          content: 'Note card'
-        }} /> */}
+        {
+          notes.map(note => {
+            return (
+              <NoteCard key={note.id} note={note} />
+            )
+          })
+        }
       </div>
     </div>
   )

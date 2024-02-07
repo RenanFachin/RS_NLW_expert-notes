@@ -15,7 +15,9 @@ export function NoteCard({ note }: NoteCardProps) {
     <Dialog.Root>
       <Dialog.Trigger className='bg-zinc-800 rounded-md p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-zinc-600 text-left outline-none focus-visible:ring-2 focus-visible:ring-lime-400 flex flex-col'>
         <span className='text-sm font-medium text-zinc-300'>
-          {note.date.toISOString()}
+          {
+            formatDate(note.date)
+          }
         </span>
 
         <p className='text-sm leading-6 text-zinc-400'>
