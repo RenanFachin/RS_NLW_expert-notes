@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import logoNLW from './assets/logo-nlw-expert.svg'
 import { NewNoteCard } from './components/new-note-card'
 import { NoteCard } from './components/note-card'
@@ -11,7 +11,16 @@ interface Note {
 }
 
 export function App() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [search, setSearch] = useState('')
+  const [notes, setNotes] = useState<Note[]>(() => {
+    const notesOnStorage = localStorage.getItem('notes')
+
+    if (notesOnStorage) {
+      return JSON.parse(notesOnStorage)
+    }
+
+    return []
+  })
 
   function onNoteCreated(content: string) {
     const newNote = {
@@ -20,9 +29,21 @@ export function App() {
       content
     }
 
+    const notesArray = [newNote, ...notes]
 
-    setNotes([newNote, ...notes])
+    setNotes(notesArray)
+
+    // O Localstorage não aceita array, apenas texto
+    localStorage.setItem('notes', JSON.stringify(notesArray))
   }
+
+  function handleSearch(event: ChangeEvent<HTMLInputElement>) {
+    const query = event.target.value
+
+    setSearch(query)
+  }
+
+  const filteredNotes = search !== '' ? notes.filter(note => note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase())) : notes
 
 
   return (
@@ -35,6 +56,7 @@ export function App() {
           type="text"
           placeholder='Busque em suas notas...'
           className='w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-zinc-500'
+          onChange={handleSearch}
         />
       </form>
 
@@ -45,7 +67,7 @@ export function App() {
         <NewNoteCard onNoteCreated={onNoteCreated} />
 
         {
-          notes.map(note => {
+          filteredNotes.map(note => {
             return (
               <NoteCard key={note.id} note={note} />
             )
