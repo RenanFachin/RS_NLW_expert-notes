@@ -37,6 +37,16 @@ export function App() {
     localStorage.setItem('notes', JSON.stringify(notesArray))
   }
 
+  function onNoteDeleted(id: string) {
+    // percorrer o array e retornar apenas as notas com id diferente
+    const notesArray = notes.filter(note => {
+      return note.id !== id
+    })
+
+    setNotes(notesArray)
+    localStorage.setItem('notes', JSON.stringify(notesArray))
+  }
+
   function handleSearch(event: ChangeEvent<HTMLInputElement>) {
     const query = event.target.value
 
@@ -69,7 +79,7 @@ export function App() {
         {
           filteredNotes.map(note => {
             return (
-              <NoteCard key={note.id} note={note} />
+              <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted}/>
             )
           })
         }
